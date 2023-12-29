@@ -1,0 +1,29 @@
+import io.ktor.http.*
+import io.ktor.server.testing.*
+import org.junit.Test
+import kotlin.test.assertEquals
+
+class ApplicationTest {
+
+    @Test
+    fun testRoot() {
+        withTestApplication({ module(testing = true) }) {
+            handleRequest(HttpMethod.Get, "/").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals("text/html; charset=UTF-8", response.contentType().toString())
+                assertEquals("Hello World!", response.content)
+            }
+        }
+    }
+
+    @Test
+    fun testCustomTarget() {
+        withTestApplication({ module(testing = true) }) {
+            handleRequest(HttpMethod.Get, "/").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals("text/html; charset=UTF-8", response.contentType().toString())
+                assertEquals("Hello CustomTarget!", response.content)
+            }
+        }
+    }
+}
